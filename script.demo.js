@@ -104,8 +104,8 @@ function appendMessage(text, sender) {
   avatar.className = "avatar";
   avatar.src = sender === "left" ? "oneechan.png" : "user.png";
 
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
+  const parsed = marked.parse(text);
+  bubble.innerHTML = sender === "left" && text === "……" ? "……" : sanitizeMessage(parsed);
 
   // ← ここを条件分岐で変える
   bubble.innerHTML = sender === "left" && text === "……" ? "……" : sanitizeMessage(marked.parse(text));
@@ -130,6 +130,14 @@ async function sendMessage() {
 
   document.getElementById("user-input").value = "";
 }
+
+function sanitizeMessage(html) {
+  // 空白だけの段落やbrを削除
+  return html
+    .replace(/<p>(\s|&nbsp;)*<\/p>/g, '')
+    .replace(/<br\s*\/?>\s*$/gi, '');
+}
+
 
 function newChat() {
   currentChatId = createNewChat();
