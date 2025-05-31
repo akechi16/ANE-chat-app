@@ -104,14 +104,18 @@ function appendMessage(text, sender) {
   avatar.className = "avatar";
   avatar.src = sender === "left" ? "oneechan.png" : "user.png";
 
-  const parsed = marked.parse(text);
-  bubble.innerHTML = sender === "left" && text === "……" ? "……" : sanitizeMessage(marked.parse(text));
+  const bubble = document.createElement("div"); // ← これが抜けてた！
+  bubble.className = "bubble";
+  bubble.innerHTML = sender === "left" && text === "……"
+    ? "……"
+    : sanitizeMessage(marked.parse(text)); // ← ここでエラー出てた
 
   messageDiv.appendChild(avatar);
   messageDiv.appendChild(bubble);
   chatBox.appendChild(messageDiv);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
+
 
 async function sendMessage() {
   const userInput = document.getElementById("user-input").value;
