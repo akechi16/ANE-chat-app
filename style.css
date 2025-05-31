@@ -66,7 +66,7 @@ input,
 .bubble {
   padding: 10px 15px;
   border-radius: 15px;
-  max-width: 70%;
+  max-width: 90%;
   word-break: break-word;
   font-size: 16px;
   line-height: 1.5;
@@ -313,6 +313,51 @@ textarea#user-input {
   .top-bar button {
     width: 100%;
   }
+
+  .top-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background-color: #222;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.top-bar-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* 各ボタンの基本スタイルを維持 */
+.top-bar select,
+.top-bar button {
+  height: 36px;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #888;
+}
+
+/* モバイル時の調整 */
+@media (max-width: 600px) {
+  .top-bar-row {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .top-bar select,
+  .top-bar button {
+    flex: 1 1 45%;  /* 折り返しつつ2列に */
+    min-width: 120px;
+  }
+}
+
 }
 
 
