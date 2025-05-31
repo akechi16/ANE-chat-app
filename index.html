@@ -3,29 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ANE-Chat</title>
+  <title>お姉ちゃんChat</title>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="style.css" />
+  <!-- 👇 <head>タグ内に追加 -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffd3dc" />
+
 </head>
 <body>
-<div class="top-bar">
-  <div class="top-bar-row top-bar-row-1">
+  <div class="top-bar">
     <label for="model-select">Model Select：</label>
     <select id="model-select">
       <option value="gpt-3.5-turbo">GPT-3.5</option>
       <option value="gpt-4">GPT-4</option>
       <option value="gpt-4o">GPT-4o</option>
     </select>
+    
     <select id="chat-selector" onchange="switchChat(this.value)"></select>
-  </div>
-
-  <div class="top-bar-row top-bar-row-2">
     <button onclick="newChat()">＋ New Chat</button>
     <button onclick="editChatName()">✏️ Edit Chat Name</button>
     <button onclick="deleteChat()">🗑 Delete</button>
   </div>
-</div>
-
 
   <div id="chat-box"></div>
 
@@ -35,6 +34,15 @@
     <button onclick="sendMessage()">SEND</button>
   </div>
 </div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('Service Worker registered:', reg))
+      .catch(err => console.log('Service Worker registration failed:', err));
+  }
+</script>
+
 
 
   <!-- 公開時はdemo版を読み込む -->
