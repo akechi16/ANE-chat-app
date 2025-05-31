@@ -105,9 +105,6 @@ function appendMessage(text, sender) {
   avatar.src = sender === "left" ? "oneechan.png" : "user.png";
 
   const parsed = marked.parse(text);
-  bubble.innerHTML = sender === "left" && text === "……" ? "……" : sanitizeMessage(parsed);
-
-  // ← ここを条件分岐で変える
   bubble.innerHTML = sender === "left" && text === "……" ? "……" : sanitizeMessage(marked.parse(text));
 
   messageDiv.appendChild(avatar);
@@ -118,15 +115,15 @@ function appendMessage(text, sender) {
 
 async function sendMessage() {
   const userInput = document.getElementById("user-input").value;
-
-  // 空入力なら送信しない
   if (!userInput.trim()) return;
 
   appendMessage(userInput, "right");
 
-  // GitHub公開用：デモ応答
-  const fakeReply = "（デモ版ではAPIは使えないよっ！）";
-  appendMessage(fakeReply, "left");
+  // ちょっと時間差でお姉ちゃんが返事する風に見せる
+  setTimeout(() => {
+    const fakeReply = "（デモ版ではAPIは使えないよ！）";
+    appendMessage(fakeReply, "left");
+  }, 500);
 
   document.getElementById("user-input").value = "";
 }
