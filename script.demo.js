@@ -77,7 +77,12 @@ function deleteChat() {
   }
 }
 
-
+function sanitizeMessage(html) {
+  // 空白だけの段落やbrを削除
+  return html
+    .replace(/<p>(\s|&nbsp;)*<\/p>/g, '')
+    .replace(/<br\s*\/?>\s*$/gi, '');
+}
 
 function switchChat(id) {
   currentChatId = id;
@@ -116,6 +121,12 @@ function appendMessage(text, sender) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+function sanitizeMessage(html) {
+  // 空白だけの段落やbrを削除
+  return html
+    .replace(/<p>(\s|&nbsp;)*<\/p>/g, '')
+    .replace(/<br\s*\/?>\s*$/gi, '');
+}
 
 async function sendMessage() {
   const userInput = document.getElementById("user-input").value;
