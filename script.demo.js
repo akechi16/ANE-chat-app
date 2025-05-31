@@ -108,7 +108,7 @@ function appendMessage(text, sender) {
   bubble.className = "bubble";
 
   // ← ここを条件分岐で変える
-  bubble.innerHTML = sender === "left" && text === "……" ? "……" : marked.parse(text);
+  bubble.innerHTML = sender === "left" && text === "……" ? "……" : sanitizeMessage(marked.parse(text));
 
   messageDiv.appendChild(avatar);
   messageDiv.appendChild(bubble);
@@ -118,46 +118,17 @@ function appendMessage(text, sender) {
 
 async function sendMessage() {
   const userInput = document.getElementById("user-input").value;
+
+  // 空入力なら送信しない
+  if (!userInput.trim()) return;
+
   appendMessage(userInput, "right");
 
   // GitHub公開用：デモ応答
-  const fakeReply = "（デモ版ではAPIは使えないよ！）";
+  const fakeReply = "（デモ版ではAPIは使えないよっ！）";
   appendMessage(fakeReply, "left");
 
   document.getElementById("user-input").value = "";
-}
-
-  try {
-    const model = document.getElementById("model-select").value;
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: model,
-        messages: chats[currentChatId]
-      })
-    });
-
-    if (!response.ok) throw new Error(`APIエラー！ステータス: ${response.status}`);
-
-    const data = await response.json();
-    const reply = data.choices[0].message.content;
-
-    chats[currentChatId].push({ role: "assistant", content: reply });
-    localStorage.setItem("chats", JSON.stringify(chats));
-
-    document.getElementById("chat-box").removeChild(document.getElementById("chat-box").lastChild);
-    appendMessage(reply, "left");
-
-  } catch (error) {
-    document.getElementById("chat-box").removeChild(document.getElementById("chat-box").lastChild);
-    appendMessage(`エラーが起きたみたい💦：${error.message}`, "left");
-    console.error("APIエラー:", error);
-  }
 }
 
 function newChat() {
@@ -185,12 +156,3 @@ textarea.addEventListener("keydown", (e) => {
     sendMessage();      // 送信
   }
 });
-
-
-function sanitizeMessage(html) {
-  // 空白だけの段落やbrを削除
-  return html.replace(/<p>(\s|&nbsp;)*<\/p>/g, '')
-             .replace(/<br\s*\/?>\s*$/gi, '');
-}
-
-
