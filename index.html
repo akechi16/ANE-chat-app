@@ -8,19 +8,24 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="top-bar">
+<div class="top-bar">
+  <div class="top-bar-row top-bar-row-1">
     <label for="model-select">Model Select：</label>
     <select id="model-select">
       <option value="gpt-3.5-turbo">GPT-3.5</option>
       <option value="gpt-4">GPT-4</option>
       <option value="gpt-4o">GPT-4o</option>
     </select>
-
     <select id="chat-selector" onchange="switchChat(this.value)"></select>
+  </div>
+
+  <div class="top-bar-row top-bar-row-2">
     <button onclick="newChat()">＋ New Chat</button>
     <button onclick="editChatName()">✏️ Edit Chat Name</button>
     <button onclick="deleteChat()">🗑 Delete</button>
   </div>
+</div>
+
 
   <div id="chat-box"></div>
 
